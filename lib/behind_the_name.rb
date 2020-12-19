@@ -49,6 +49,7 @@ module BehindTheName
     usage = validate_and_normalize_usage!(usage, :appendix1)
 
     params = {
+      name: name,
       gender: normalize_gender(gender),
       usage: usage,
       key: api_key

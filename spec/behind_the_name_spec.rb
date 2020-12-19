@@ -25,6 +25,14 @@ RSpec.describe BehindTheName do
       end.and_return('{}')
       BehindTheName.lookup(name: 'whatever', exact: true)
     end
+
+    it 'uses all the parameters' do
+      allow(RestClient).to receive(:get) do |url, options|
+        expect(options[:params]).to have_key(:name)
+        expect(options[:params]).to have_key(:exact)
+      end.and_return('{}')
+      BehindTheName.lookup(name: 'whatever', exact: false)
+    end
   end
 
   describe '.random' do
@@ -65,6 +73,16 @@ RSpec.describe BehindTheName do
       end.and_return('{}')
       BehindTheName.random(randomsurname: true)
     end
+
+    it 'uses all the parameters' do
+      allow(RestClient).to receive(:get) do |url, options|
+        expect(options[:params]).to have_key(:gender)
+        expect(options[:params]).to have_key(:usage)
+        expect(options[:params]).to have_key(:number)
+        expect(options[:params]).to have_key(:randomsurname)
+      end.and_return('{}')
+      BehindTheName.random(gender: :unisex, usage: 'Cornish', number: 3, randomsurname: 'yes')
+    end
   end
 
   describe '.related' do
@@ -88,6 +106,15 @@ RSpec.describe BehindTheName do
     it 'will ParamError for invalid genders' do
       expect { BehindTheName.related(name: 'name', gender: :invalid) }.to raise_error(BehindTheName::ParamError)
       expect { BehindTheName.related(name: 'name', gender: 'male') }.to raise_error(BehindTheName::ParamError)
+    end
+
+    it 'uses all the parameters' do
+      allow(RestClient).to receive(:get) do |url, options|
+        expect(options[:params]).to have_key(:name)
+        expect(options[:params]).to have_key(:gender)
+        expect(options[:params]).to have_key(:usage)
+      end.and_return('{}')
+      BehindTheName.related(name: 'whatever', gender: :unisex, usage: 'Cornish')
     end
   end
 end
