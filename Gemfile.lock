@@ -2,8 +2,8 @@ PATH
   remote: .
   specs:
     behind_the_name (0.1.0)
-      rest-client
-      yaml
+      rest-client (~> 2)
+      yaml (~> 0)
 
 GEM
   remote: https://rubygems.org/

@@ -8,6 +8,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Unofficial Ruby Client for BehindTheName.com}
   spec.homepage      = 'https://github.com/saraid/behind_the_name'
+  spec.licenses      = ['MIT']
 
   spec.metadata["homepage_uri"] = spec.homepage
 
@@ -20,6 +21,6 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'rest-client'
-  spec.add_dependency 'yaml'
+  spec.add_dependency 'rest-client', '~> 2'
+  spec.add_dependency 'yaml', '~> 0'
 end
