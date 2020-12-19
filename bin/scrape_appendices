@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+require 'open-uri'
+require 'oga'
+require 'logger'
+
+logger = Logger.new(STDOUT)
+
+ROOT = File.expand_path(File.join(__dir__, '..'))
+
+APPENDIX_URLS = {
+  'https://www.behindthename.com/api/appendix1.php' => 'lib/behind_the_name/appendix1.yml',
+  'https://www.behindthename.com/api/appendix2.php' => 'lib/behind_the_name/appendix2.yml',
+}.each do |url, filename|
+  Oga
+    .tap { logger.info("Scraping #{url}") }
+    .parse_html(open(url).read)
+    .css('table')[2].css('tr')[1..-1]
+    .map { |row| [:code, :full, :description].zip(row.css('td').map(&:text)).to_h }
+    .yield_self { |hsh| YAML.dump(hsh) }
+    .tap { logger.info("Writing to #{filename}") }
+    .yield_self { |str| File.open(File.join(ROOT, filename), 'w') { |f| f.write(str) } }
+end
+
