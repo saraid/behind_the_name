@@ -17,7 +17,7 @@ module BehindTheName
 
     def normalize(usage)
       return usage.to_sym if @by_code.include?(usage.to_sym)
-      @by_full.fetch(usage).first.fetch(:code)
+      @by_full.fetch(usage).first.fetch(:code).to_sym
     end
 
     def include?(key)

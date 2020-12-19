@@ -65,7 +65,7 @@ module BehindTheName
   private_class_method def self.validate_and_normalize_usage!(usage, appendix)
     return if usage.nil?
     Usages.from(appendix).normalize(usage)
-  rescue Errno::NOENT
+  rescue Errno::ENOENT
     raise RuntimeError, 'Requested an appendix that does not exist.'
   rescue KeyError
     raise ParamError, "`#{usage.inspect}` is not a valid key for usage"
@@ -73,16 +73,20 @@ module BehindTheName
 
   private_class_method def self.validate_number!(number)
     return if number.nil?
-    raise ParamError, "`#{number.inspect}` is not a valid key for number" unless number.kind_of?(Integer) && (1..6).include?(number)
+    unless number.kind_of?(Integer) && (1..6).include?(number)
+      raise ParamError, "`#{number.inspect}` is not a valid key for numberi; " \
+                        'try an integer between 1 and 6'
+    end
   end
 
   private_class_method def self.normalize_gender(gender)
     return if gender.nil?
-    case gender
-    when :masculine then :m
-    when :feminine then :f
-    when :unisex then :u
-    else raise ParamError, "`#{gender.inspect}` is not a valid key for gender"
+    case gender.to_sym
+    when :m, :masculine then :m
+    when :f, :feminine then :f
+    when :u, :unisex then :u
+    else raise ParamError, "`#{gender.inspect}` is not a valid key for gender; " \
+                           'use :masculine, :feminine, or :unisex'
     end
   end
 

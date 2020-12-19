@@ -1,8 +1,12 @@
 #!/usr/bin/env ruby
 
-require 'yaml'
+require 'bundler/inline'
+gemfile do
+  gem 'oga', require: true
+  gem 'yaml', require: true
+end
+
 require 'open-uri'
-require 'oga'
 require 'logger'
 
 logger = Logger.new(STDOUT)

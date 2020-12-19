@@ -3,6 +3,7 @@ PATH
   specs:
     behind_the_name (0.1.0)
       rest-client
+      yaml
 
 GEM
   remote: https://rubygems.org/
@@ -39,6 +40,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
+    yaml (0.1.0)
 
 PLATFORMS
   ruby
